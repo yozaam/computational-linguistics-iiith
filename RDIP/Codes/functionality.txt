@@ -1,0 +1,26 @@
+"COMPUTATIONAL LINGUISTICS LAB" & home leads to computational-linguistics-iiith\src\lab
+
+Forming sentences current page
+Computational linguistics lab same page
+
+
+ experiment tab gives us a dropdown 
+1. English 
+2. Hindi
+
+
+-> we have 10 buttons displaying ten words
+
+-> "Re-form the sentence" = reset button.
+
+-> click on buttons in a correct grammatical order
+
+-> "Check the correctness of this sentence"
+
+-> sentence is compared with stored 8 answers
+
+-> if it matched green color text "Right answer!!!" else red colortext "Wrong answers!!!"
+
+->show answers displays all 8 possible answers
+
+-> the to hide it the button becomes hide answer
