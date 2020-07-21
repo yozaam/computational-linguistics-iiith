@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Virtual Labs</title>
+    <script type="text/javascript" >
+      // storing in a set for constant time checking
+      var english = new Set([
+        "John ate an apple before afternoon",
+        "before afternoon John ate an apple",
+        "John before afternoon ate an apple",
+      
+        "some students like to study in the night",
+        "at night some students like to study",
+      
+      
+        "the woman who called my sister sells cosmetics",
+        "the woman who sells cosmetics called my sister",
+        "my sister who sells cosmetics called the woman",
+        "my sister who called the woman sells cosmetics",
+      
+        "John and Mary went to church",
+        "Mary and John went to church",
+      
+        "John went to church after eating",
+        "after eating John went to church",
+        "John after eating went to church",
+      
+        "did he go to market",
+        "he did go to market",
+      
+        "the teacher returned the book after she noticed the error",
+        "the teacher noticed the error after she returned the book",
+        "after the teacher returned the book she noticed the error",
+        "after the teacher noticed the error she returned the book",
+        "she returned the book after the teacher noticed the error",
+        "she noticed the error after the teacher returned the book",
+        "after she returned the book the teacher noticed the error",
+        "after she noticed the error the teacher returned the book",
+      
+        "John goes to the library and studies",
+        "John studies and goes to the library",
+      
+        "John ate an apple so did she",
+        "she ate an apple so did John",
+        
+        "I told her that I bought a book yesterday",
+        "I told her yesterday that I bought a book",
+        "yesterday I told her that I bought a book",
+        "I bought a book that I told her yesterday",
+        "I bought a book yesterday that I told her",
+        "yesterday I bought a book that I told her"
+      ]);
+      
+      
+      
+      // storing in a set for constant time checking
+      var hindi = new Set([
+        "राम और श्याम बाजार गयें",
+        "राम और श्याम गयें बाजार",
+        "बाजार गयें राम और श्याम",
+        "गयें बाजार राम और श्याम",
+      
+        "राम खाकर सोया",
+        "खाकर राम सोया",
+        "राम सोया खाकर",
+        "खाकर सोया राम",
+        "सोया राम खाकर",
+        "सोया खाकर राम",
+      
+        "राम सोया और श्याम भी",
+        "श्याम सोया और राम भी",
+        "सोया श्याम और राम भी",
+        "सोया राम और श्याम भी",
+      
+        "मैंने उसे बताया कि राम सो रहा है",
+        "मैंने उसे बताया कि सो रहा है राम",
+        "उसे मैंने बताया कि राम सो रहा है",
+        "उसे मैंने बताया कि सो रहा है राम",
+        "मैंने बताया उसे कि राम सो रहा है",
+        "मैंने बताया उसे कि सो रहा है राम",
+        "उसे बताया मैंने कि राम सो रहा है",
+        "उसे बताया मैंने कि सो रहा है राम",
+        "बताया मैंने उसे कि राम सो रहा है",
+        "बताया मैंने उसे कि सो रहा है राम",
+        "बताया उसे मैंने कि राम सो रहा है",
+        "बताया उसे मैंने कि सो रहा है राम",
+        
+        "एक लाल किताब वहाँ है",
+        "एक लाल किताब है वहाँ",
+        "वहाँ है एक लाल किताब",
+        "है वहाँ एक लाल किताब",
+      
+        "बिल्लियों को मारकर कुत्ता सो गया",
+        "मारकर बिल्लियों को कुत्ता सो गया",
+        "बिल्लियों को मारकर सो गया कुत्ता",
+        "मारकर बिल्लियों को सो गया कुत्ता",
+        "कुत्ता सो गया बिल्लियों को मारकर",
+        "कुत्ता सो गया मारकर बिल्लियों को",
+        "सो गया कुत्ता बिल्लियों को मारकर",
+        "सो गया कुत्ता मारकर बिल्लियों को",
+      
+        "एक बड़ी सी किताब वहाँ है",
+        "एक बड़ी सी किताब है वहाँ",
+        "बड़ी सी एक किताब वहाँ है",
+        "बड़ी सी एक किताब है वहाँ",
+        "वहाँ है एक बड़ी सी किताब",
+        "वहाँ है बड़ी सी एक किताब",
+      
+        " है वहाँ एक बड़ी सी किताब",
+        "है वहाँ बड़ी सी एक किताब"
+      ]);
+      
+      // get random item from a Set
+      function getRandomItem(set) {
+      let items = Array.from(set);
+      return items[Math.floor(Math.random() * items.length)];
+      }
+      
+      //corpus data above ^
+      
+      
+      var randSen = [];
+      var check = [];
+      var sentences = [] ;
+      var createdSen = [];
+      var senLen = 0;
+      
+      
+      function start(val){
+      createdSen = [];
+      senLen=0;
+      document.getElementById("myM").style = "display: none";
+      document.getElementById("rere").style = "display: none";
+      document.getElementById("myMsg").style = "display: none";
+      document.getElementById("createdSentence").style = "display: none";
+      document.getElementById("itsistrue").style = "display: none";
+      document.getElementById("itsisfalse").style = "display: none";
+      document.getElementById("gettheans").style = "display: none";
+      document.getElementById("check").style = "display: none";
+      document.getElementById("gettheans").innerHTML = "Get correct sentence";
+      document.getElementById("makewordbuttons").innerHTML = " ";
+      document.getElementById("createdSentence").innerHTML = " ";
+      document.getElementById("answers").innerHTML = " ";
+      
+      
+      
+      switch (val) {
+      case "english":
+        sentences = Array.from(english)
+        document.getElementById("myM").style = "display: block";
+        break;
+      case "hindi":
+        var sentences = Array.from(hindi)
+        document.getElementById("myM").style = "display: block";
+        break;
+      case "null":
+        alert("Select Language");
+      default:
+        break;
+      }
+      sentences = Array.from(sentences)
+      chosen = sentences;
+      
+      var word = Math.floor(Math.random() * chosen.length);
+      randSen = chosen[word].split(" ");
+      
+      var words = randSen.length,
+      temp,
+      randX;
+      while (words > 0) {
+        randX = Math.floor(Math.random() * words);
+        words--;
+        temp = randSen[words];
+        randSen[words] = randSen[randX];
+        randSen[randX] = temp;
+      }
+      makewordbutton();
+      return randSen;
+      
+      
+      }
+      
+      
+      
+      
+      function createSen(id) {
+      document.getElementById("createdSentence").style = "display: block";
+      document.getElementById("myMsg").style = "display: block";
+      document.getElementById("rere").style = "display: block";
+      document.getElementById(id).style = "display: none";
+      word = document.getElementById(id).value;
+      document.getElementById("createdSentence").innerHTML += word + "&emsp14;";
+      createdSen.push(word);
+      senLen++;
+      if (randSen.length == senLen) {
+      document.getElementById("check").style = "display:block";
+      }
+      }
+      
+      
+      
+      function rere() {
+      document.getElementById("makewordbuttons").innerHTML = "";
+      document.getElementById("createdSentence").innerHTML = "";
+      document.getElementById("myMsg").style = "display: none";
+      document.getElementById("rere").style = "display: none";
+      document.getElementById("itsistrue").style = "display: none";
+      document.getElementById("itsisfalse").style = "display: none";
+      document.getElementById("check").style = "display: none";
+      document.getElementById("gettheans").style = "display: none";
+      document.getElementById("gettheans").innerHTML = "Get correct sentence";
+      document.getElementById("answers").innerHTML = "";
+      createdSen = [];
+      makewordbutton();
+      senLen = 0;
+      }
+      
+      function checkSen() {
+      var e = english.has(createdSen.join(" "));
+      var h = hindi.has(createdSen.join(" "));
+      
+      
+      if (e||h) {
+      document.getElementById("itsistrue").style = "display: block";
+      } else {
+      document.getElementById("itsisfalse").style = "display: block";
+      document.getElementById("gettheans").style = "display: block";
+      }
+      }
+      
+      function whatiscorrect() {
+      document.getElementById("answers").innerHTML = chosen.join("<br>");
+      btfunc();
+      }
+      
+      
+      function makewordbutton() {
+      for (var i = 0; i < randSen.length; i++) {
+      var button = document.createElement("button");
+      var x = document.createTextNode(randSen[i]);
+      button.appendChild(x);
+      document.getElementById("makewordbuttons").appendChild(button);
+      button.value = randSen[i];
+      button.setAttribute("id", i);
+      button.setAttribute("class", "makewordbuttons");
+      button.setAttribute("onclick", "createSen(this.id)");
+      document.getElementById("makewordbuttons").innerHTML;
+      }
+      }
+      
+      function btfunc() {
+      var btstat = document.getElementById("gettheans").innerHTML;
+      var gcs = "Get correct sentence";
+      var hcs = "Hide the correct sentence";
+      if (btstat == gcs) {
+      document.getElementById("gettheans").innerHTML = "Hide the correct sentence";
+      } else if (btstat == hcs) {
+      document.getElementById("gettheans").innerHTML = "Get answers";
+      document.getElementById("answers").innerHTML = "";
+      } else {
+      document.getElementById("gettheans").innerHTML = "Hide the correct sentence";
+      document.getElementById("answers").innerHTML = chosen.join("<br>");
+      }
+      }
+    </script>
+    <style>
+      body {
+      font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana,
+      Arial, sans-serif;
+      font-size: 12px;
+      margin: 0 auto;
+      padding: 0;
+      background: #012943;
+      }
+      #headofexp {
+      height: 35px;
+      background-color: #0e91e2;
+      border-style: solid;
+      border-width: 1px;
+      border-color: #fff;
+      box-shadow: 0 5px 2px rgba(0, 0, 0, 0.1);
+      }
+      #headofexp a:link,
+      #headofexp a:visited {
+      color: #fff;
+      text-decoration: none;
+      float: left;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0 25px 0;
+      }
+      #headofexp a:focus,
+      #headofexp a:hover {
+      color: #fff;
+      background-color: #02568e;
+      }
+      .headingB {
+      margin: 0 auto;
+      margin-top: 3px;
+      background-color: #d7e7f0;
+      width: 1024px;
+      height: 50px;
+      }
+      #expnav {
+      line-height: 0;
+      padding: 15px 0;
+      letter-spacing: 0;
+      position: relative;
+      margin: 12px auto auto auto;
+      width: 1000px;
+      font-size: 16px;
+      color: white;
+      }
+      #expnav a:link,
+      #expnav a:visited {
+      text-decoration: none;
+      position: relative;
+      color: #fefefe;
+      }
+      .forSen {
+      font-size: 50px;
+      font-family: Georgia, "Times New Roman", Times, Serif;
+      font-weight: 400;
+      text-transform: none;
+      color: #3d414c;
+      padding: 10px 30px;
+      width: 964px;
+      background-color: #e3f2fc;
+      }
+      .centerContent {
+      width: 964px;
+      background-color: #fff;
+      box-shadow: 0 9px 0 0 #fff, 0 -9px 0 0 #fff,
+      12px 0 15px -4px rgba(0, 0, 0, 0.2), -12px 0 15px -4px rgba(0, 0, 0, 0.2);
+      font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana,
+      Arial, sans-serif;
+      font-size: 16px;
+      }
+      .centerExp {
+      width: 964px;
+      margin: 0 auto;
+      text-align: center;
+      height: 900px;
+      }
+      nav#Navofexp ul li {
+      float: left;
+      list-style: none;
+      margin-right: 0.3em;
+      }
+      nav#Navofexp ul li a:link,
+      nav#Navofexp ul li a:visited {
+      color: #02568e;
+      margin-top: -10px;
+      text-decoration: underline;
+      float: left;
+      display: block;
+      font-size: 16px;
+      text-transform: uppercase;
+      width: 120 px;
+      height: 80px;
+      padding: 9px;
+      font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana,
+      Arial, sans-serif;
+      }
+      nav#Navofexp ul li a:focus,
+      nav#Navofexp ul li a:hover {
+      color: #fff;
+      background-color: #02568e;
+      }
+      .title {
+      font-family: proxima-nova-extra-condensed-1, proxima-nova-extra-condensed-2,
+      "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+      Verdana, Arial, sans-serif;
+      font-size: 24px;
+      margin-left: 20px;
+      color: black;
+      }
+      .msg {
+      color: #00a;
+      font-size: 16px;
+      }
+      .makewordbuttons {
+      text-align: center;
+      margin-right: 30px;
+      }
+      .logo {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      }
+      .language {
+      font-size: 16px;
+      }
+      .rere {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      }
+      .createdSentence {
+      font-size: 30px;
+      }
+      .answer1 {
+      text-align: center;
+      font-size: 30px;
+      display: none;
+      color: #ff0000;
+      }
+      .answer2 {
+      text-align: center;
+      font-size: 30px;
+      display: none;
+      color: #008600;
+      }
+    </style>
+  </head>
+  <body>
+    <img class="logo" src="http://cl-iiith.vlabs.ac.in/images/logo.jpg">
+    <div class="headingB">
+    <div class="heading" id="headofexp">
+      <a href="http://cl-iiith.vlabs.ac.in/index.html">Computational Linguistics Lab</a>
+    </div>
+    <div id="expnav"><a href="http://cl-iiith.vlabs.ac.in/index.html">Home</a> &gt;
+      <a href="http://cl-iiith.vlabs.ac.in/index.html">Computational Linguistics Lab</a> &gt; <a href="Experiment.html">
+      Forming Sentences - 2 </a>
+    </div>
+    <div class="forSen">
+      Forming Sentences - 2<br>
+      <div class="centerContent">
+        <nav class="default" id="Navofexp">
+          <ul id="Navofexp-menu">
+            <li> <a href="#" id="experiment-article-section-1-menu">
+              <img src="http://cl-iiith.vlabs.ac.in/images/introduction.jpg">
+              <br>
+              Introduction
+              </a>
+            </li>
+            <li> <a href="#" id="experiment-article-section-2-menu">
+              <img src="http://cl-iiith.vlabs.ac.in/images/theory.jpg">
+              <br>
+              Theory
+              </a>
+            </li>
+            <li> <a href="#" id="experiment-article-section-3-menu">
+              <img src="http://cl-iiith.vlabs.ac.in/images/objective.jpg">
+              <br>
+              Objective
+              </a>
+            </li>
+            <li> <a href="#" id="experiment-article-section-4-menu">
+              <img src="http://cl-iiith.vlabs.ac.in/images/simulation.jpg">
+              <br>
+              Experiment
+              </a>
+            </li>
+            <li> <a href="#" id="http://cl-iiith.vlabs.ac.in/exp2/index.html#">
+              <img src="http://cl-iiith.vlabs.ac.in/images/quizzes.jpg">
+              <br>
+              Quizzes
+              </a>
+            </li>
+            <li> <a href="#" id="experiment-article-section-6-menu">
+              <img src="http://cl-iiith.vlabs.ac.in/images/procedure.jpg">
+              <br>
+              Procedure
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <br><br><br>
+        <p class="title">Experiment</p>
+        <div class="centerExp">
+          <br>
+          <select id="language" autocomplete="off" onchange="start(this.value);">
+            <option value="0">---Select Language---</option>
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+          </select>
+          <br><br>
+          <p class="msg" id="myM" style="display: none;"><b>Form a sentence (Declarative or Interrogative or any other type) from the given words</b><br><i>(select the buttons in proper order)</i>
+          </p>
+          <p id="makewordbuttons" onclick="createSen()"></p>
+          <br><br>
+          <p id="myMsg" style="display: none;"><b>Formed Sentence</b><i> (after selecting words): </i><br><br>
+          </p>
+          <b class="createdSentence" id="createdSentence"></b><br>
+          <button id="rere" class="rere" onclick="rere()" style="display: none;">Re-form the sentence</button><br>
+          <button id="check" class="rere" onclick="checkSen()" style="display: none;">Check the correctness of this sentence</button>
+          <p class="answer1" id="itsisfalse">Wrong answer!!!</p>
+          <p class="answer2" id="itsistrue">Right answer!!!</p>
+          <button id="gettheans" class="rere" onclick="whatiscorrect()" style="display: none;">Get correct sentence</button>
+          <p class="sentencesAns" id="answers"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
